@@ -1,5 +1,15 @@
+:root {
+    --purple: #7371FC;
+    --white: #ffffff;
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+html, body {
+    font-size: 20px;
+    font-family: 'Noto Sans JP', sans-serif;
 }
