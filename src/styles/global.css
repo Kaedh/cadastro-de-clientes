@@ -1,5 +1,6 @@
 :root {
     --purple: #7371FC;
+    --dark-purple: #4E4BFB;
     --white: #ffffff;
 }
 
@@ -9,7 +10,7 @@
     box-sizing: border-box;
 }
 
-html, body {
+html, body, button {
     font-size: 20px;
     font-family: 'Noto Sans JP', sans-serif;
 }
