@@ -1,0 +1,23 @@
+.search-box {
+    width: 88%;
+    height: 60px;
+    background: var(--light-purple);
+    color: var(--light-gray);
+
+    border-radius: 20px;
+
+    padding-left: 5%;
+    line-height: 29px;
+    outline: none;
+    border: none;
+
+    transition: border .2s;
+}
+
+.search-box:hover {
+    border: 3px solid var(--light-gray);
+}
+
+.search-box:focus {
+    border: 3px solid var(--dark-purple);
+}
