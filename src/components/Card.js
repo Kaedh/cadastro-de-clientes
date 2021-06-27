@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import '../styles/Card.css';
+import '../styles/card.css';
 import avatar from '../assets/avatar1.svg';
 
 function Card({
