@@ -1,0 +1,35 @@
+.customer-btn {
+    border: none;
+    width: 100%;
+    background: var(--purple);
+    display: flex;
+    align-items: center;
+    padding: 0 10%;
+    height: 78px;
+    cursor: pointer;
+}
+
+.customer-btn:hover {
+    background: var(--dark-purple);
+}
+
+.selected {
+    background: var(--dark-purple);
+}
+
+.customer-avatar {
+    margin-right: 10px;
+}
+
+.text-wrapper {
+    color: var(--white);
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    min-width: 7rem;
+}
+
+.text-wrapper span {
+    line-height: 1.2rem;
+    white-space: nowrap;
+}
