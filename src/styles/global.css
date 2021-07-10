@@ -2,8 +2,13 @@
     --purple: #7371FC;
     --dark-purple: #4E4BFB;
     --light-purple: #CDC1FF;
+    --pink: #D6C2EA;
+    --red: #CC444B;
     --white: #ffffff;
+    --dark-white: #F5EFFF;
     --light-gray: #E7EBEF; 
+    --almost-dark-gray: #ADB5BD;
+    --dark-gray: #6C757D;
 }
 
 * {
@@ -15,4 +20,10 @@
 html, body, button, input {
     font-size: 20px;
     font-family: 'Noto Sans JP', sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
