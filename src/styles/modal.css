@@ -1,0 +1,77 @@
+.closed {
+    visibility: hidden;
+}
+
+
+.modal-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0, 0.5);
+    box-shadow: 1.95px 1.95px 2.6px rgba(0, 0, 0, 0.25);
+    border-radius: 1rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.message-container {
+    width: 33%;
+    height: 25%;
+    background: var(--purple);
+    border-radius: 1rem;
+    font-size: 0.75rem;
+    color: var(--white);
+    padding: 1.5rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.message-container p {
+    width: 97%;
+}
+
+.buttons-wrapper {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.green {
+    background: var(--green);
+}
+
+.red {
+    background: var(--light-red);
+}
+
+.green:hover {
+    background: var(--dark-green);
+}
+
+.red:hover {
+    background: var(--red);
+}
+
+.buttons-wrapper button:first-child {
+    margin-right: .75rem;
+}
+
+.buttons-wrapper button {
+    border: none;
+    width: 5rem;
+    height: 2rem;
+    font-size: 0.75rem;
+    color: var(--white);
+    border-radius: .5rem;
+    box-shadow: 1.95px 1.95px 2.6px rgba(0, 0, 0, 0.35);
+    cursor: pointer;
+
+}
