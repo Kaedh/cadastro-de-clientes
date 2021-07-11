@@ -9,6 +9,9 @@
     --light-gray: #E7EBEF; 
     --almost-dark-gray: #ADB5BD;
     --dark-gray: #6C757D;
+    --green: #AAD576;
+    --dark-green: #60A428;
+    --light-red: #E39695;
 }
 
 * {
@@ -23,6 +26,8 @@ html, body, button, input {
 }
 
 body {
+    height: 100vh;
+    width: 100vw;
     display: flex;
     justify-content: center;
     align-items: center;
