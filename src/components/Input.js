@@ -7,11 +7,15 @@ import '../styles/input.css';
 function Input({
   width, placeholder, register, error, disabled, mask,
 }) {
+  const inputWidth = width === 'fit' ? '100%' : `${width}px`;
+
+  console.log(error);
+
   if (mask) {
     return (
-      <div className="input-wrapper">
+      <div className="input-wrapper" style={{ width: inputWidth }}>
         <InputMask
-          style={{ width: `${width}px` }}
+          style={{ width: inputWidth }}
           className={`${error === '' ? '' : 'error'} ${disabled ? 'disabled-input' : ''}`}
           disabled={disabled}
           placeholder={placeholder}
@@ -24,7 +28,7 @@ function Input({
     );
   }
   return (
-    <div className="input-wrapper">
+    <div className="input-wrapper" style={{ width: inputWidth }}>
       <input
         style={{ width: `${width}px` }}
         className={`${error === '' ? '' : 'error'} ${disabled ? 'disabled-input' : ''}`}

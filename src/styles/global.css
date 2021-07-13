@@ -12,6 +12,7 @@
     --green: #AAD576;
     --dark-green: #60A428;
     --light-red: #E39695;
+    --form-color: #E5D9F2;
 }
 
 * {
@@ -31,4 +32,8 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+li {
+    list-style: none;
 }

@@ -1,11 +1,13 @@
 .customer-btn {
     border: none;
+    max-width: 510px;
+    min-width: 310px;
     width: 100%;
     background: var(--purple);
     display: flex;
     align-items: center;
     padding: 0 10%;
-    height: 78px;
+    height: 3.5rem;
     cursor: pointer;
 }
 
