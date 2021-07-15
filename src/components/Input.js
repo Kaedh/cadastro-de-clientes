@@ -41,7 +41,7 @@ function Input({
 }
 
 Input.propTypes = {
-  width: PropTypes.number.isRequired,
+  width: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
   register: PropTypes.func.isRequired,
   error: PropTypes.string,
