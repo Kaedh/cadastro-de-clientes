@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import '../styles/app.css';
+import customersData from '../data/data';
 
 import addCostumerIcon from '../assets/add.svg';
 import editCustomerIcon from '../assets/edit.svg';
@@ -15,25 +16,42 @@ import Modal from './Modal';
 import SearchBox from './searchBox';
 
 function App() {
+  const [customers] = useState(customersData);
+  const [filteredCustomers, setFilteredCustomers] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+
   const { register, handleSubmit, formState: { errors } } = useForm();
+
+  useEffect(() => {
+    const results = customers.filter((customer) => {
+      const fullName = `${customer.firstName} ${customer.lastName}`.toLocaleLowerCase().trim();
+      return fullName.includes(searchTerm);
+    });
+
+    setFilteredCustomers(results);
+  }, [searchTerm]);
 
   const onSubmit = () => () => {};
 
   const emptyFunction = () => { };
 
+  const handleSearchBoxInput = (e) => setSearchTerm(e.target.value);
+
   return (
     <div className="app">
       <Modal isOpen={false} leftOption={emptyFunction} rightOption={emptyFunction} alertMessage="Leonardo tem um pau grandão" />
       <div className="left-container">
-        <SearchBox />
+        <SearchBox onChange={handleSearchBoxInput} value={searchTerm} />
         <ul className="customer-list">
-          <li><Card firstName="Leonardo" lastName="martins" onClick={emptyFunction} /></li>
-          <li><Card firstName="Leonardo" lastName="martins" onClick={emptyFunction} /></li>
-          <li><Card firstName="Leonardo" lastName="martins" onClick={emptyFunction} /></li>
-          <li><Card firstName="Leonardo" lastName="martins" onClick={emptyFunction} /></li>
-          <li><Card firstName="Leonardo" lastName="martins" onClick={emptyFunction} /></li>
-          <li><Card firstName="Leonardo" lastName="martins" onClick={emptyFunction} /></li>
-
+          { filteredCustomers.map((customer) => (
+            <li key={customer.id}>
+              <Card
+                firstName={customer.firstName}
+                lastName={customer.lastName}
+                onClick={emptyFunction}
+              />
+            </li>
+          )) }
         </ul>
         <Button icon={addCostumerIcon} onClick={emptyFunction} />
       </div>
@@ -95,3 +113,12 @@ function App() {
 }
 
 export default App;
+
+/*
+ [X] - Quando usuario digitar algo na busca, a lista será filtrada;
+ [ ] - Quando usuario clicar em algum cliente da lista, os dados serão mostrados na direita;
+ [ ] - Quando usuario clicar em editar o formulário irá se tornar editavel.
+ [ ] - Quando usuario clicar em deletar, o dados selecionados serão excluidos, mostrar alerta antes;
+ [ ] - Quando usuario clicar em adicionar cliente, lado direito aparecerá um formulario em branco;
+ [ ] - Quando usuario estiver digitando/editando um cliente e clicar em outro aparecerá um modal;
+*/

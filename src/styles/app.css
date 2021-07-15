@@ -20,8 +20,13 @@
     border-radius: 1rem 0 0 1rem;
 }
 
+.left-container .search-box {
+    margin-bottom: 1rem;
+}
+
 .left-container ul {
     width: 100%;
+    height: 100%;
 }
 
 .left-container .customer-btn {

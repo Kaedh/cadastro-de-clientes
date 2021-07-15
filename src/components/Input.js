@@ -9,8 +9,6 @@ function Input({
 }) {
   const inputWidth = width === 'fit' ? '100%' : `${width}px`;
 
-  console.log(error);
-
   if (mask) {
     return (
       <div className="input-wrapper" style={{ width: inputWidth }}>
