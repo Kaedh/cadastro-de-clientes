@@ -1,4 +1,5 @@
 .app {
+    position: relative;
     width: 70vw;
     min-width: 1050px;
     height: 75vh;

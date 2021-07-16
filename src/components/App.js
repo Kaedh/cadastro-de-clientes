@@ -16,14 +16,16 @@ import Modal from './Modal';
 import SearchBox from './searchBox';
 
 function App() {
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [positiveModalAnswear, setPositiveModalAnswear] = useState(false);
   const [customers] = useState(customersData);
   const [filteredCustomers, setFilteredCustomers] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCustomer, setSelectedCustomer] = useState({});
-  const [formIsLocked] = useState(true);
+  const [formIsLocked, setFormIsLocked] = useState(true);
 
   const {
-    register, handleSubmit, setValue, formState: { errors },
+    register, handleSubmit, setValue, reset, clearErrors, formState: { errors },
   } = useForm();
 
   useEffect(() => {
@@ -37,37 +39,69 @@ function App() {
 
   useEffect(() => { if (customers) setSelectedCustomer(customers[0]); }, []);
 
+  const renderCustomerData = (customer) => {
+    setValue('firstName', customer.firstName);
+    setValue('lastName', customer.lastName);
+    setValue('socialName', customer.socialName);
+    setValue('gender', customer.gender);
+    setValue('cpf', customer.cpf);
+    setValue('birthDay', customer.birthDay);
+    setValue('cep', customer.cep);
+    setValue('street', customer.street);
+    setValue('district', customer.district);
+    setValue('number', customer.number);
+    setValue('city', customer.city);
+    setValue('uf', customer.uf);
+    setValue('complement', customer.complement);
+    setValue('email', customer.email);
+    setValue('phone', customer.phone);
+  };
   useEffect(() => {
-    setValue('firstName', selectedCustomer.firstName);
-    setValue('lastName', selectedCustomer.lastName);
-    setValue('socialName', selectedCustomer.socialName);
-    setValue('gender', selectedCustomer.gender);
-    setValue('cpf', selectedCustomer.cpf);
-    setValue('birthDay', selectedCustomer.birthDay);
-    setValue('cep', selectedCustomer.cep);
-    setValue('street', selectedCustomer.street);
-    setValue('district', selectedCustomer.district);
-    setValue('number', selectedCustomer.number);
-    setValue('city', selectedCustomer.city);
-    setValue('uf', selectedCustomer.uf);
-    setValue('complement', selectedCustomer.complement);
-    setValue('email', selectedCustomer.email);
-    setValue('phone', selectedCustomer.phone);
+    if (formIsLocked) renderCustomerData(selectedCustomer);
   }, [selectedCustomer]);
+
+  useEffect(() => {
+    renderCustomerData(selectedCustomer);
+    setModalIsOpen(false);
+    clearErrors();
+    return () => setPositiveModalAnswear(false);
+  }, [positiveModalAnswear]);
+
+  const modalLeftOption = () => {
+    setPositiveModalAnswear(true);
+    setModalIsOpen(false);
+    setFormIsLocked(true);
+  };
+
+  const modalRightOption = () => setModalIsOpen(false);
 
   const onSubmit = () => () => {};
 
   const emptyFunction = () => { };
 
   const handleSearchBoxInput = (e) => setSearchTerm(e.target.value);
+
   const handleCustomerSelection = (e) => {
     const selected = filteredCustomers.find((customer) => customer.id === Number(e.target.id));
     setSelectedCustomer(selected);
+
+    if (!formIsLocked) setModalIsOpen(true);
+  };
+
+  const handleNewCustomerButton = () => {
+    reset();
+    setFormIsLocked(false);
   };
 
   return (
     <div className="app">
-      <Modal isOpen={false} leftOption={emptyFunction} rightOption={emptyFunction} alertMessage="Leonardo tem um pau grandão" />
+      <Modal
+        isOpen={modalIsOpen}
+        leftOption={modalLeftOption}
+        rightOption={modalRightOption}
+        alertMessage="Os dados do formulário não foram salvos,
+                      tem certeza de que deseja sair desta página?"
+      />
       <div className="left-container">
         <SearchBox onChange={handleSearchBoxInput} value={searchTerm} />
         <ul className="customer-list">
@@ -82,7 +116,7 @@ function App() {
             </li>
           )) }
         </ul>
-        <Button icon={addCostumerIcon} onClick={emptyFunction} />
+        <Button icon={addCostumerIcon} onClick={handleNewCustomerButton} />
       </div>
 
       <div className="right-container">
@@ -91,7 +125,7 @@ function App() {
           <Button icon={deleteCustomerIcon} onClick={emptyFunction} />
         </div>
 
-        <form id="customer-form" onSubmit={handleSubmit(onSubmit)}>
+        <form id="customer-form" onSubmit={handleSubmit(onSubmit)} autoComplete="off">
           <div className="form-row">
             <Input width="315" placeholder="Nome" register={() => register('firstName', { required: true })} error={errors.firstName?.type} disabled={formIsLocked} />
             <Input width="315" placeholder="Sobrenome" register={() => register('lastName', { required: true })} error={errors.lastName?.type} disabled={formIsLocked} />
@@ -145,8 +179,8 @@ export default App;
 
 /*
  [X] - Quando usuario digitar algo na busca, a lista será filtrada;
- [ ] - Quando usuario clicar em algum cliente da lista, os dados serão mostrados na direita;
- [ ] - Quando usuario clicar em editar o formulário irá se tornar editavel.
+ [X] - Quando usuario clicar em algum cliente da lista, os dados serão mostrados na direita;
+ [X] - Quando usuario clicar em editar o formulário irá se tornar editavel.
  [ ] - Quando usuario clicar em deletar, o dados selecionados serão excluidos, mostrar alerta antes;
  [ ] - Quando usuario clicar em adicionar cliente, lado direito aparecerá um formulario em branco;
  [ ] - Quando usuario estiver digitando/editando um cliente e clicar em outro aparecerá um modal;

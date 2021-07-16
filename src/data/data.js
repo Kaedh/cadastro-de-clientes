@@ -1,7 +1,7 @@
 const customers = [
   {
     id: 15,
-    firstName: 'Sabrina',
+    firstName: 'Jack',
     lastName: 'Martins de mendes',
     socialName: 'kaedh',
     gender: 'male',
@@ -19,7 +19,7 @@ const customers = [
   },
   {
     id: 16,
-    firstName: 'leonardo',
+    firstName: 'John Locke',
     lastName: 'Martins de Sousa',
     socialName: 'kaedh',
     gender: 'male',
@@ -37,7 +37,7 @@ const customers = [
   },
   {
     id: 17,
-    firstName: 'leonardo',
+    firstName: 'Charlie',
     lastName: 'Martins de Sousa',
     socialName: 'kaedh',
     gender: 'male',
@@ -55,7 +55,7 @@ const customers = [
   },
   {
     id: 18,
-    firstName: 'leonardo',
+    firstName: 'Claire',
     lastName: 'Martins de Sousa',
     socialName: 'kaedh',
     gender: 'male',
@@ -73,7 +73,7 @@ const customers = [
   },
   {
     id: 19,
-    firstName: 'leonardo',
+    firstName: 'Sun',
     lastName: 'Martins de Sousa',
     socialName: 'kaedh',
     gender: 'male',
@@ -91,7 +91,7 @@ const customers = [
   },
   {
     id: 45,
-    firstName: 'leonardo',
+    firstName: 'Jin',
     lastName: 'Martins de Sousa',
     socialName: 'kaedh',
     gender: 'male',
