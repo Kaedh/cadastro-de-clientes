@@ -81,6 +81,8 @@ function App() {
 
   const handleSearchBoxInput = (e) => setSearchTerm(e.target.value);
 
+  const handleEditCustomer = () => setFormIsLocked(false);
+
   const handleCustomerSelection = (e) => {
     const selected = filteredCustomers.find((customer) => customer.id === Number(e.target.id));
     setSelectedCustomer(selected);
@@ -121,7 +123,7 @@ function App() {
 
       <div className="right-container">
         <div className="btn-wrapper">
-          <Button icon={editCustomerIcon} onClick={emptyFunction} />
+          <Button icon={editCustomerIcon} onClick={handleEditCustomer} />
           <Button icon={deleteCustomerIcon} onClick={emptyFunction} />
         </div>
 
@@ -180,8 +182,8 @@ export default App;
 /*
  [X] - Quando usuario digitar algo na busca, a lista será filtrada;
  [X] - Quando usuario clicar em algum cliente da lista, os dados serão mostrados na direita;
- [X] - Quando usuario clicar em editar o formulário irá se tornar editavel.
+ [ ] - Quando usuario clicar em editar o formulário irá se tornar editavel.
  [ ] - Quando usuario clicar em deletar, o dados selecionados serão excluidos, mostrar alerta antes;
- [ ] - Quando usuario clicar em adicionar cliente, lado direito aparecerá um formulario em branco;
- [ ] - Quando usuario estiver digitando/editando um cliente e clicar em outro aparecerá um modal;
+ [X] - Quando usuario clicar em adicionar cliente, lado direito aparecerá um formulario em branco;
+ [X] - Quando usuario estiver digitando/editando um cliente e clicar em outro aparecerá um modal;
 */
