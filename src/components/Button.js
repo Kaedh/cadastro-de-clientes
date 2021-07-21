@@ -16,7 +16,7 @@ function Button({
 
 Button.propTypes = {
   icon: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
   type: PropTypes.string,
   form: PropTypes.string,
 };
@@ -24,6 +24,7 @@ Button.propTypes = {
 Button.defaultProps = {
   type: 'button',
   form: '',
+  onClick: () => {},
 };
 
 export default Button;
