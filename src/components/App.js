@@ -17,15 +17,18 @@ import SearchBox from './searchBox';
 
 function App() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [positiveModalAnswear, setPositiveModalAnswear] = useState(false);
-  const [customers] = useState(customersData);
+  const [lostFormFocus, setLostFormFocus] = useState(false);
+  const [deleteButtonWasPressed, setDeleteButtonWasPressed] = useState(false);
+  const [customers, setCustomers] = useState(customersData);
   const [filteredCustomers, setFilteredCustomers] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCustomer, setSelectedCustomer] = useState({});
+  const [isANewCustomer, setIsANewCustomer] = useState(false);
+  const [isEditingACustomer, setIsEditingACustomer] = useState(false);
   const [formIsLocked, setFormIsLocked] = useState(true);
 
   const {
-    register, handleSubmit, setValue, reset, clearErrors, formState: { errors },
+    register, handleSubmit, setValue, reset, formState: { errors },
   } = useForm();
 
   useEffect(() => {
@@ -38,6 +41,8 @@ function App() {
   }, [searchTerm]);
 
   useEffect(() => { if (customers) setSelectedCustomer(customers[0]); }, []);
+
+  useEffect(() => setFilteredCustomers(customers), [customers]);
 
   const renderCustomerData = (customer) => {
     setValue('firstName', customer.firstName);
@@ -56,44 +61,86 @@ function App() {
     setValue('email', customer.email);
     setValue('phone', customer.phone);
   };
+
   useEffect(() => {
     if (formIsLocked) renderCustomerData(selectedCustomer);
   }, [selectedCustomer]);
 
-  useEffect(() => {
-    renderCustomerData(selectedCustomer);
-    setModalIsOpen(false);
-    clearErrors();
-    return () => setPositiveModalAnswear(false);
-  }, [positiveModalAnswear]);
+  const onSubmit = (data) => {
+    if (isANewCustomer) {
+      const id = Math.floor(Math.random() * 10);
+      const dataToBeSubmitted = { id, ...data };
 
-  const modalLeftOption = () => {
-    setPositiveModalAnswear(true);
-    setModalIsOpen(false);
-    setFormIsLocked(true);
+      if (typeof dataToBeSubmitted.firstName === 'undefined') return null;
+
+      setCustomers([...customers, { ...dataToBeSubmitted }]);
+      setFormIsLocked(true);
+      setIsANewCustomer(false);
+    }
+
+    if (isEditingACustomer) {
+      const { id } = selectedCustomer;
+      const dataToBeUpdated = { id, ...data };
+
+      const dataToBeSubmitted = customers.map((customer) => {
+        if (customer.id === id) return dataToBeUpdated;
+        return customer;
+      });
+
+      setCustomers([...dataToBeSubmitted]);
+      setFormIsLocked(true);
+      setIsEditingACustomer(false);
+    }
+
+    return null;
   };
-
-  const modalRightOption = () => setModalIsOpen(false);
-
-  const onSubmit = () => () => {};
 
   const emptyFunction = () => { };
 
   const handleSearchBoxInput = (e) => setSearchTerm(e.target.value);
 
-  const handleEditCustomer = () => setFormIsLocked(false);
+  const handleEditCustomer = () => {
+    setIsEditingACustomer(true);
+    setFormIsLocked(false);
+  };
 
   const handleCustomerSelection = (e) => {
     const selected = filteredCustomers.find((customer) => customer.id === Number(e.target.id));
+
     setSelectedCustomer(selected);
 
-    if (!formIsLocked) setModalIsOpen(true);
+    if (!formIsLocked) {
+      setModalIsOpen(true);
+      setLostFormFocus(true);
+    }
   };
 
   const handleNewCustomerButton = () => {
     reset();
     setFormIsLocked(false);
+    setIsANewCustomer(true);
   };
+
+  const handleDeleteCustomerButton = () => {
+    setDeleteButtonWasPressed(true);
+    setModalIsOpen(true);
+  };
+
+  const modalLeftOption = () => {
+    if (deleteButtonWasPressed) {
+      const selectedId = selectedCustomer.id;
+      setCustomers((prevValues) => prevValues.filter((customer) => customer.id !== selectedId));
+      setModalIsOpen(false);
+    }
+
+    if (lostFormFocus) {
+      renderCustomerData(selectedCustomer);
+      setFormIsLocked(true);
+      setModalIsOpen(false);
+    }
+  };
+
+  const modalRightOption = () => setModalIsOpen(false);
 
   return (
     <div className="app">
@@ -124,7 +171,7 @@ function App() {
       <div className="right-container">
         <div className="btn-wrapper">
           <Button icon={editCustomerIcon} onClick={handleEditCustomer} />
-          <Button icon={deleteCustomerIcon} onClick={emptyFunction} />
+          <Button icon={deleteCustomerIcon} onClick={handleDeleteCustomerButton} />
         </div>
 
         <form id="customer-form" onSubmit={handleSubmit(onSubmit)} autoComplete="off">
@@ -178,12 +225,3 @@ function App() {
 }
 
 export default App;
-
-/*
- [X] - Quando usuario digitar algo na busca, a lista será filtrada;
- [X] - Quando usuario clicar em algum cliente da lista, os dados serão mostrados na direita;
- [ ] - Quando usuario clicar em editar o formulário irá se tornar editavel.
- [ ] - Quando usuario clicar em deletar, o dados selecionados serão excluidos, mostrar alerta antes;
- [X] - Quando usuario clicar em adicionar cliente, lado direito aparecerá um formulario em branco;
- [X] - Quando usuario estiver digitando/editando um cliente e clicar em outro aparecerá um modal;
-*/
