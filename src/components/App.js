@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import '../styles/app.css';
+import format from '../utils/format';
 import customersData from '../data/data';
 
 import addCostumerIcon from '../assets/add.svg';
@@ -62,6 +63,24 @@ function App() {
     setValue('phone', customer.phone);
   };
 
+  const inputRegister = {
+    firstName: register('firstName'),
+    lastName: register('lastName'),
+    socialName: register('socialName'),
+    gender: register('gender'),
+    cpf: register('cpf', { required: true }),
+    birthDay: register('birthDay'),
+    cep: register('cep'),
+    street: register('street'),
+    district: register('district'),
+    number: register('number'),
+    city: register('city'),
+    uf: register('uf'),
+    complement: register('complement'),
+    email: register('email'),
+    phone: register('phone'),
+  };
+
   useEffect(() => {
     if (formIsLocked) renderCustomerData(selectedCustomer);
   }, [selectedCustomer]);
@@ -95,8 +114,6 @@ function App() {
     return null;
   };
 
-  const emptyFunction = () => { };
-
   const handleSearchBoxInput = (e) => setSearchTerm(e.target.value);
 
   const handleEditCustomer = () => {
@@ -117,6 +134,7 @@ function App() {
 
   const handleNewCustomerButton = () => {
     reset();
+    setValue('cpf', '');
     setFormIsLocked(false);
     setIsANewCustomer(true);
   };
@@ -141,6 +159,11 @@ function App() {
   };
 
   const modalRightOption = () => setModalIsOpen(false);
+
+  const formatToCpf = (e) => setValue('cpf', format.toCpf(e.target.value));
+  const formatToDate = (e) => setValue('birthDay', format.toBirthDay(e.target.value));
+  const formatToCep = (e) => setValue('cep', format.toCep(e.target.value));
+  const formatToPhone = (e) => setValue('phone', format.toPhone(e.target.value));
 
   return (
     <div className="app">
@@ -176,48 +199,48 @@ function App() {
 
         <form id="customer-form" onSubmit={handleSubmit(onSubmit)} autoComplete="off">
           <div className="form-row">
-            <Input width="315" placeholder="Nome" register={() => register('firstName', { required: true })} error={errors.firstName?.type} disabled={formIsLocked} />
-            <Input width="315" placeholder="Sobrenome" register={() => register('lastName', { required: true })} error={errors.lastName?.type} disabled={formIsLocked} />
+            <Input width="315" placeholder="Nome" register={inputRegister.firstName} error={errors.firstName?.type} disabled={formIsLocked} />
+            <Input width="315" placeholder="Sobrenome" register={inputRegister.lastName} error={errors.lastName?.type} disabled={formIsLocked} />
           </div>
 
           <div className="form-row">
-            <Input width="395" placeholder="Nome Social" register={() => register('socialName', { required: true })} error={errors.socialName?.type} disabled={formIsLocked} />
-            <Input width="215" placeholder="Gênero" register={() => register('gender', { required: true })} error={errors.gender?.type} disabled={formIsLocked} />
+            <Input width="395" placeholder="Nome Social" register={inputRegister.socialName} error={errors.socialName?.type} disabled={formIsLocked} />
+            <Input width="215" placeholder="Gênero" register={inputRegister.gender} error={errors.gender?.type} disabled={formIsLocked} />
           </div>
 
           <div className="form-row">
-            <Input width="375" placeholder="CPF" register={() => register('cpf', { required: true })} error={errors.cpf?.type} disabled={formIsLocked} />
-            <Input width="250" placeholder="Data de Nascimento" register={() => register('birthDay', { required: true })} error={errors.birthDay?.type} disabled={formIsLocked} />
+            <Input width="375" placeholder="CPF" register={inputRegister.cpf} error={errors.cpf?.type} disabled={formIsLocked} format={formatToCpf} />
+            <Input width="250" placeholder="Data de Nascimento" register={inputRegister.birthDay} error={errors.birthDay?.type} disabled={formIsLocked} format={formatToDate} />
           </div>
 
           <div className="form-row">
-            <Input width="215" placeholder="CEP" register={() => register('cep', { required: true })} error={errors.cep?.type} disabled={formIsLocked} />
-            <Input width="395" placeholder="Logradouro" register={() => register('street', { required: true })} error={errors.street?.type} disabled={formIsLocked} />
+            <Input width="215" placeholder="CEP" register={inputRegister.cep} error={errors.cep?.type} disabled={formIsLocked} format={formatToCep} />
+            <Input width="395" placeholder="Logradouro" register={inputRegister.street} error={errors.street?.type} disabled={formIsLocked} />
           </div>
 
           <div className="form-row">
-            <Input width="450" placeholder="Bairro" register={() => register('district', { required: true })} error={errors.district?.type} disabled={formIsLocked} />
-            <Input width="175" placeholder="Número" register={() => register('number', { required: true })} error={errors.number?.type} disabled={formIsLocked} />
+            <Input width="450" placeholder="Bairro" register={inputRegister.district} error={errors.district?.type} disabled={formIsLocked} />
+            <Input width="175" placeholder="Número" register={inputRegister.number} error={errors.number?.type} disabled={formIsLocked} />
           </div>
 
           <div className="form-row">
-            <Input width="410" placeholder="Cidade" register={() => register('city', { required: true })} error={errors.city?.type} disabled={formIsLocked} />
-            <Input width="205" placeholder="Estado" register={() => register('uf', { required: true })} error={errors.uf?.type} disabled={formIsLocked} />
+            <Input width="410" placeholder="Cidade" register={inputRegister.city} error={errors.city?.type} disabled={formIsLocked} />
+            <Input width="205" placeholder="Estado" register={inputRegister.uf} error={errors.uf?.type} disabled={formIsLocked} />
           </div>
 
           <div className="form-row">
-            <Input width="fit" placeholder="Complemento" register={() => register('complement', { required: true })} error={errors.complement?.type} disabled={formIsLocked} />
+            <Input width="fit" placeholder="Complemento" register={inputRegister.complement} error={errors.complement?.type} disabled={formIsLocked} />
           </div>
 
           <div className="form-row">
-            <Input width="395" placeholder="E-mail" register={() => register('email', { required: true })} error={errors.email?.type} disabled={formIsLocked} />
-            <Input width="225" placeholder="Telefone" register={() => register('phone', { required: true })} error={errors.phone?.type} disabled={formIsLocked} />
+            <Input width="395" placeholder="E-mail" register={inputRegister.email} error={errors.email?.type} disabled={formIsLocked} />
+            <Input width="225" placeholder="Telefone" register={inputRegister.phone} error={errors.phone?.type} disabled={formIsLocked} format={formatToPhone} />
           </div>
         </form>
 
         <footer>
           <span>* Campo obrigatório</span>
-          <Button icon={saveCustomerIcon} form="customer-form" type="submit" onClick={emptyFunction} />
+          <Button icon={saveCustomerIcon} form="customer-form" type="submit" />
         </footer>
       </div>
     </div>
@@ -225,3 +248,12 @@ function App() {
 }
 
 export default App;
+
+/*
+  [X] - Colocar mascaras de formularios
+  [ ] - Criar component Select pro genero
+  [ ] - Criar fake API e consumir os dados dela
+  [ ] - Scroll na lista de clientes
+  [ ] - Colocar asterisco vermelho nos campos obrigatorio
+  [ ] - Auto preencher endereço ao digitar o CEP
+*/
