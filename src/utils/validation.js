@@ -12,7 +12,6 @@ const validation = {
     pattern: { value: /^[A-zÀ-ú_ ]+$/, message: 'Inválido' },
   },
   socialName: {
-    required: { value: true, message: 'Inválido' },
     minLength: { value: 2, message: 'Inválido' },
     maxLength: { value: 20, message: 'Inválido' },
     pattern: { value: /^[A-zÀ-ú_ ]+$/, message: 'Inválido' },

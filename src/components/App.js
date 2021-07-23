@@ -245,7 +245,6 @@ function App() {
         </form>
 
         <footer>
-          <span>* Campo obrigatório</span>
           <Button icon={saveCustomerIcon} form="customer-form" type="submit" />
         </footer>
       </div>
@@ -261,6 +260,5 @@ export default App;
   [ ] - Criar component Select pro genero
   [ ] - Criar fake API e consumir os dados dela
   [ ] - Scroll na lista de clientes
-  [ ] - Colocar asterisco vermelho nos campos obrigatorio
   [ ] - Auto preencher endereço ao digitar o CEP
 */

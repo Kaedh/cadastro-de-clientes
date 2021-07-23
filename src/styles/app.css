@@ -73,11 +73,5 @@
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-}
-
-.right-container footer span{ 
-    align-self: flex-end;
-    font-size: 0.65rem;
-    color: var(--red);
+    justify-content: flex-end;
 }
