@@ -4,21 +4,22 @@ import PropTypes from 'prop-types';
 import '../styles/input.css';
 
 function Input({
-  width, placeholder, register, error, disabled, format,
+  width, placeholder, register, error, disabled, validate, maxLength,
 }) {
-  const inputWidth = width === 'fit' ? '100%' : `${width}px`;
+  const inputWidth = width === '100' ? '100%' : `${width}px`;
 
-  const { onChange, onBlur, ref } = register;
+  const { onBlur, ref } = register;
 
   return (
     <div className="input-wrapper" style={{ width: inputWidth }}>
       <input
+        maxLength={maxLength}
         style={{ width: inputWidth }}
         className={`${error === '' ? '' : 'error'} ${disabled ? 'disabled-input' : ''}`}
         disabled={disabled}
         placeholder={placeholder}
         ref={ref}
-        onChange={format || onChange}
+        onChange={validate}
         onBlur={onBlur}
       />
 
@@ -33,7 +34,8 @@ Input.propTypes = {
   placeholder: PropTypes.string.isRequired,
   error: PropTypes.string,
   disabled: PropTypes.bool,
-  format: PropTypes.func,
+  validate: PropTypes.func,
+  maxLength: PropTypes.string,
 
   register: PropTypes.shape({
     name: PropTypes.string.isRequired,
@@ -46,7 +48,8 @@ Input.propTypes = {
 Input.defaultProps = {
   error: '',
   disabled: false,
-  format: () => {},
+  maxLength: '',
+  validate: () => {},
 };
 
 export default Input;

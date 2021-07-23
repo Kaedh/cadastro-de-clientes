@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 
 import '../styles/app.css';
 import format from '../utils/format';
+import validation from '../utils/validation';
 import customersData from '../data/data';
 
 import addCostumerIcon from '../assets/add.svg';
@@ -29,7 +30,7 @@ function App() {
   const [formIsLocked, setFormIsLocked] = useState(true);
 
   const {
-    register, handleSubmit, setValue, reset, formState: { errors },
+    register, handleSubmit, setValue, reset, trigger, formState: { errors },
   } = useForm();
 
   useEffect(() => {
@@ -50,9 +51,9 @@ function App() {
     setValue('lastName', customer.lastName);
     setValue('socialName', customer.socialName);
     setValue('gender', customer.gender);
-    setValue('cpf', customer.cpf);
-    setValue('birthDay', customer.birthDay);
-    setValue('cep', customer.cep);
+    setValue('cpf', format.toCpf(customer.cpf));
+    setValue('birthDay', format.toBirthDay(customer.birthDay));
+    setValue('cep', format.toCep(customer.cep));
     setValue('street', customer.street);
     setValue('district', customer.district);
     setValue('number', customer.number);
@@ -60,25 +61,25 @@ function App() {
     setValue('uf', customer.uf);
     setValue('complement', customer.complement);
     setValue('email', customer.email);
-    setValue('phone', customer.phone);
+    setValue('phone', format.toPhone(customer.phone?.replace(/\D/g, '')));
   };
 
   const inputRegister = {
-    firstName: register('firstName'),
-    lastName: register('lastName'),
-    socialName: register('socialName'),
-    gender: register('gender'),
-    cpf: register('cpf', { required: true }),
-    birthDay: register('birthDay'),
-    cep: register('cep'),
-    street: register('street'),
-    district: register('district'),
-    number: register('number'),
-    city: register('city'),
-    uf: register('uf'),
-    complement: register('complement'),
-    email: register('email'),
-    phone: register('phone'),
+    firstName: register('firstName', validation.firstName),
+    lastName: register('lastName', validation.lastName),
+    socialName: register('socialName', validation.socialName),
+    gender: register('gender', validation.gender),
+    cpf: register('cpf', validation.cpf),
+    birthDay: register('birthDay', validation.birthDay),
+    cep: register('cep', validation.cep),
+    street: register('street', validation.street),
+    district: register('district', validation.district),
+    number: register('number', validation.number),
+    city: register('city', validation.city),
+    uf: register('uf', validation.uf),
+    complement: register('complement', validation.complement),
+    email: register('email', validation.email),
+    phone: register('phone', validation.phone),
   };
 
   useEffect(() => {
@@ -160,10 +161,15 @@ function App() {
 
   const modalRightOption = () => setModalIsOpen(false);
 
-  const formatToCpf = (e) => setValue('cpf', format.toCpf(e.target.value));
-  const formatToDate = (e) => setValue('birthDay', format.toBirthDay(e.target.value));
-  const formatToCep = (e) => setValue('cep', format.toCep(e.target.value));
-  const formatToPhone = (e) => setValue('phone', format.toPhone(e.target.value));
+  const validateInputOnChange = async (e, name) => {
+    if (name === 'cpf') setValue('cpf', format.toCpf(e.target.value));
+    if (name === 'birthDay') setValue('birthDay', format.toBirthDay(e.target.value));
+    if (name === 'cep') setValue('cep', format.toCep(e.target.value));
+    if (name === 'phone') setValue('phone', format.toPhone(e.target.value));
+
+    setValue(name, e.target.value);
+    await trigger(name);
+  };
 
   return (
     <div className="app">
@@ -199,42 +205,42 @@ function App() {
 
         <form id="customer-form" onSubmit={handleSubmit(onSubmit)} autoComplete="off">
           <div className="form-row">
-            <Input width="315" placeholder="Nome" register={inputRegister.firstName} error={errors.firstName?.type} disabled={formIsLocked} />
-            <Input width="315" placeholder="Sobrenome" register={inputRegister.lastName} error={errors.lastName?.type} disabled={formIsLocked} />
+            <Input width="315" maxLength="20" placeholder="Nome" register={inputRegister.firstName} error={errors.firstName?.message} disabled={formIsLocked} validate={(e) => validateInputOnChange(e, 'firstName')} />
+            <Input width="315" maxLength="20" placeholder="Sobrenome" register={inputRegister.lastName} error={errors.lastName?.message} disabled={formIsLocked} validate={(e) => validateInputOnChange(e, 'lastName')} />
           </div>
 
           <div className="form-row">
-            <Input width="395" placeholder="Nome Social" register={inputRegister.socialName} error={errors.socialName?.type} disabled={formIsLocked} />
-            <Input width="215" placeholder="Gênero" register={inputRegister.gender} error={errors.gender?.type} disabled={formIsLocked} />
+            <Input width="395" maxLength="20" placeholder="Nome Social" register={inputRegister.socialName} error={errors.socialName?.message} disabled={formIsLocked} validate={(e) => validateInputOnChange(e, 'socialName')} />
+            <Input width="250" maxLength="10" placeholder="Gênero" register={inputRegister.gender} error={errors.gender?.message} disabled={formIsLocked} validate={(e) => validateInputOnChange(e, 'gender')} />
           </div>
 
           <div className="form-row">
-            <Input width="375" placeholder="CPF" register={inputRegister.cpf} error={errors.cpf?.type} disabled={formIsLocked} format={formatToCpf} />
-            <Input width="250" placeholder="Data de Nascimento" register={inputRegister.birthDay} error={errors.birthDay?.type} disabled={formIsLocked} format={formatToDate} />
+            <Input width="375" maxLength="14" placeholder="CPF" register={inputRegister.cpf} error={errors.cpf?.message} disabled={formIsLocked} validate={(e) => validateInputOnChange(e, 'cpf')} />
+            <Input width="250" maxLength="10" placeholder="Data de Nascimento" register={inputRegister.birthDay} error={errors.birthDay?.message} disabled={formIsLocked} validate={(e) => validateInputOnChange(e, 'birthDay')} />
           </div>
 
           <div className="form-row">
-            <Input width="215" placeholder="CEP" register={inputRegister.cep} error={errors.cep?.type} disabled={formIsLocked} format={formatToCep} />
-            <Input width="395" placeholder="Logradouro" register={inputRegister.street} error={errors.street?.type} disabled={formIsLocked} />
+            <Input width="215" maxLength="9" placeholder="CEP" register={inputRegister.cep} error={errors.cep?.message} disabled={formIsLocked} validate={(e) => validateInputOnChange(e, 'cep')} />
+            <Input width="395" maxLength="30" placeholder="Logradouro" register={inputRegister.street} error={errors.street?.message} disabled={formIsLocked} validate={(e) => validateInputOnChange(e, 'street')} />
           </div>
 
           <div className="form-row">
-            <Input width="450" placeholder="Bairro" register={inputRegister.district} error={errors.district?.type} disabled={formIsLocked} />
-            <Input width="175" placeholder="Número" register={inputRegister.number} error={errors.number?.type} disabled={formIsLocked} />
+            <Input width="450" maxLength="30" placeholder="Bairro" register={inputRegister.district} error={errors.district?.message} disabled={formIsLocked} validate={(e) => validateInputOnChange(e, 'district')} />
+            <Input width="175" maxLength="6" placeholder="Número" register={inputRegister.number} error={errors.number?.message} disabled={formIsLocked} validate={(e) => validateInputOnChange(e, 'number')} />
           </div>
 
           <div className="form-row">
-            <Input width="410" placeholder="Cidade" register={inputRegister.city} error={errors.city?.type} disabled={formIsLocked} />
-            <Input width="205" placeholder="Estado" register={inputRegister.uf} error={errors.uf?.type} disabled={formIsLocked} />
+            <Input width="410" maxLength="30" placeholder="Cidade" register={inputRegister.city} error={errors.city?.message} disabled={formIsLocked} validate={(e) => validateInputOnChange(e, 'city')} />
+            <Input width="205" maxLength="2" placeholder="Estado" register={inputRegister.uf} error={errors.uf?.message} disabled={formIsLocked} validate={(e) => validateInputOnChange(e, 'uf')} />
           </div>
 
           <div className="form-row">
-            <Input width="fit" placeholder="Complemento" register={inputRegister.complement} error={errors.complement?.type} disabled={formIsLocked} />
+            <Input width="100" maxLength="30" placeholder="Complemento" register={inputRegister.complement} error={errors.complement?.message} disabled={formIsLocked} validate={(e) => validateInputOnChange(e, 'complement')} />
           </div>
 
           <div className="form-row">
-            <Input width="395" placeholder="E-mail" register={inputRegister.email} error={errors.email?.type} disabled={formIsLocked} />
-            <Input width="225" placeholder="Telefone" register={inputRegister.phone} error={errors.phone?.type} disabled={formIsLocked} format={formatToPhone} />
+            <Input width="395" maxLength="30" placeholder="E-mail" register={inputRegister.email} error={errors.email?.message} disabled={formIsLocked} validate={(e) => validateInputOnChange(e, 'email')} />
+            <Input width="225" maxLength="16" placeholder="Telefone" register={inputRegister.phone} error={errors.phone?.message} disabled={formIsLocked} validate={(e) => validateInputOnChange(e, 'phone')} />
           </div>
         </form>
 
@@ -251,6 +257,7 @@ export default App;
 
 /*
   [X] - Colocar mascaras de formularios
+  [X] - Cria as regras de validações
   [ ] - Criar component Select pro genero
   [ ] - Criar fake API e consumir os dados dela
   [ ] - Scroll na lista de clientes
