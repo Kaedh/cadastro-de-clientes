@@ -30,7 +30,7 @@ function App() {
   const [formIsLocked, setFormIsLocked] = useState(true);
 
   const {
-    register, handleSubmit, setValue, reset, trigger, formState: { errors },
+    register, handleSubmit, setValue, reset, trigger, getValues, setError, formState: { errors },
   } = useForm();
 
   useEffect(() => {
@@ -85,6 +85,31 @@ function App() {
   useEffect(() => {
     if (formIsLocked) renderCustomerData(selectedCustomer);
   }, [selectedCustomer]);
+
+  useEffect(async () => {
+    if (!formIsLocked) {
+      const cepTyped = getValues('cep');
+      const cepOnlyNumbers = cepTyped && cepTyped.length === 9 ? cepTyped.replace(/\D/g, '') : '';
+
+      const getCepData = async (cep) => {
+        const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+        const data = await response.json();
+        return data;
+      };
+
+      const cepData = cepOnlyNumbers.length === 8 ? await getCepData(cepOnlyNumbers) : {};
+
+      if (cepData.erro) {
+        setError('cep', { type: 'manual', message: 'CEP inválido' });
+        return;
+      }
+
+      setValue('street', cepData.logradouro);
+      setValue('district', cepData.bairro);
+      setValue('city', cepData.localidade);
+      setValue('uf', cepData.uf);
+    }
+  }, [inputRegister.cep]);
 
   const onSubmit = (data) => {
     if (isANewCustomer) {
@@ -260,5 +285,5 @@ export default App;
   [ ] - Criar component Select pro genero
   [ ] - Criar fake API e consumir os dados dela
   [ ] - Scroll na lista de clientes
-  [ ] - Auto preencher endereço ao digitar o CEP
+  [X] - Auto preencher endereço ao digitar o CEP
 */
