@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -15,6 +16,7 @@ import Button from './Button';
 import Card from './Card';
 import Input from './Input';
 import Modal from './Modal';
+import Select from './Select';
 import SearchBox from './searchBox';
 
 function App() {
@@ -30,8 +32,8 @@ function App() {
   const [formIsLocked, setFormIsLocked] = useState(true);
 
   const {
-    register, handleSubmit, setValue, reset, trigger, getValues, setError, formState: { errors },
-  } = useForm();
+    register, handleSubmit, setValue, reset, trigger, getValues, setError, control, watch, formState: { errors },
+  } = useForm({ reValidateMode: 'onChange' });
 
   useEffect(() => {
     const results = customers.filter((customer) => {
@@ -196,6 +198,8 @@ function App() {
     await trigger(name);
   };
 
+  const genderValue = watch('gender');
+
   return (
     <div className="app">
       <Modal
@@ -236,7 +240,7 @@ function App() {
 
           <div className="form-row">
             <Input width="395" maxLength="20" placeholder="Nome Social" register={inputRegister.socialName} error={errors.socialName?.message} disabled={formIsLocked} validate={(e) => validateInputOnChange(e, 'socialName')} />
-            <Input width="250" maxLength="10" placeholder="Gênero" register={inputRegister.gender} error={errors.gender?.message} disabled={formIsLocked} validate={(e) => validateInputOnChange(e, 'gender')} />
+            <Select control={control} trigger={trigger} selectRules={validation.gender} customGender={genderValue} setCustomGender={setValue} disabled={formIsLocked} error={errors?.gender?.message} />
           </div>
 
           <div className="form-row">
@@ -282,7 +286,7 @@ export default App;
 /*
   [X] - Colocar mascaras de formularios
   [X] - Cria as regras de validações
-  [ ] - Criar component Select pro genero
+  [X] - Criar component Select pro genero
   [ ] - Criar fake API e consumir os dados dela
   [ ] - Scroll na lista de clientes
   [X] - Auto preencher endereço ao digitar o CEP

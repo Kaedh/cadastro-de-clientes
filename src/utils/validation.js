@@ -18,9 +18,6 @@ const validation = {
   },
   gender: {
     required: { value: true, message: 'Inválido' },
-    minLength: { value: 2, message: 'Inválido' },
-    maxLength: { value: 10, message: 'Inválido' },
-    pattern: { value: /^[A-zÀ-ú_ ]+$/, message: 'Inválido' },
   },
   cpf: {
     required: { value: true, message: 'Inválido' },
@@ -66,7 +63,6 @@ const validation = {
   uf: {
     required: { value: true, message: 'Inválido' },
     minLength: { value: 2, message: 'Inválido' },
-    maxLength: { value: 2, message: 'Inválido' },
     pattern: { value: /^[A-zÀ-ú]+$/, message: 'Inválido' },
   },
   complement: {

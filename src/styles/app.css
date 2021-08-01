@@ -46,6 +46,7 @@
     justify-content: space-between;
     padding: 1rem 1.5rem 1rem 0;
     min-width: 690px;
+    z-index: 1;
 }
 
 .right-container .btn-wrapper {
@@ -55,9 +56,10 @@
 .right-container form {
     height: 100%;
     width: 78%;
-    min-width: 635px;
+    min-width: 645px;
     display: flex;
     flex-direction: column;
+    
 }
 
 .right-container form .form-row {
@@ -66,6 +68,7 @@
     height: 100%;
     align-items: flex-start;
     justify-content: space-between;
+    
 }
 
 .right-container footer {
