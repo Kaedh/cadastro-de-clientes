@@ -48,7 +48,7 @@ button {
     background: var(--dark-white);
     border-radius: 20px;
     border: 3px solid var(--dark-purple);
-    z-index: 7;
+    z-index: 2;
     position: absolute;
     top: 3rem;
 
