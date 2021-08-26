@@ -8,7 +8,7 @@ function Input({
 }) {
   const inputWidth = width === '100' ? '100%' : `${width}px`;
 
-  const { onBlur, ref } = register;
+  const { onChange, ref } = register;
 
   return (
     <div className="input-wrapper" style={{ width: inputWidth }}>
@@ -19,8 +19,8 @@ function Input({
         disabled={disabled}
         placeholder={placeholder}
         ref={ref}
-        onChange={validate}
-        onBlur={onBlur}
+        onChange={onChange}
+        onBlur={validate}
       />
 
       { error && <span>{error}</span> }
