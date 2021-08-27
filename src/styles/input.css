@@ -27,6 +27,10 @@
     color: var(--almost-dark-gray);
 }
 
+.input-wrapper .disabled-input::placeholder {
+    color: var(--almost-dark-gray);
+}
+
 .input-wrapper input::placeholder {
     color: var(--dark-gray);
     opacity: 1;
