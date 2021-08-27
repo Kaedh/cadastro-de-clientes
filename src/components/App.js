@@ -16,7 +16,7 @@ import Button from './Button';
 import Card from './Card';
 import Input from './Input';
 import Modal from './Modal';
-import Select from './Select';
+import SelectGender from './SelectGender';
 import SearchBox from './searchBox';
 
 function App() {
@@ -240,7 +240,7 @@ function App() {
 
           <div className="form-row">
             <Input width="395" maxLength="20" placeholder="Nome Social" register={inputRegister.socialName} error={errors.socialName?.message} disabled={formIsLocked} validate={(e) => validateInputOnChange(e, 'socialName')} />
-            <Select control={control} trigger={trigger} selectRules={validation.gender} customGender={genderValue} setCustomGender={setValue} disabled={formIsLocked} error={errors?.gender?.message} />
+            <SelectGender control={control} trigger={trigger} selectRules={validation.gender} customGender={genderValue} setCustomGender={setValue} disabled={formIsLocked} error={errors?.gender?.message} />
           </div>
 
           <div className="form-row">
