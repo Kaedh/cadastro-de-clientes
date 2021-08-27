@@ -17,7 +17,6 @@ const Modal = ({
           <button className="green " type="button" onClick={leftOption}>Sim</button>
           <button className="red" type="button" onClick={rightOption}>Não</button>
         </div>
-
       </div>
     </div>
   );
