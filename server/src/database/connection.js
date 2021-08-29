@@ -22,6 +22,4 @@ const db = new sqlite3.Database(DBSOURCE, (err) => {
   });
 });
 
-
-
 export default db
